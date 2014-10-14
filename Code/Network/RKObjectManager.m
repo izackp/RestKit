@@ -459,7 +459,7 @@ static NSString *RKMIMETypeFromAFHTTPClientParameterEncoding(AFHTTPClientParamet
     RKObjectParameters *objectParameters = [RKObjectParameters new];
     for (id objectToParameterize in objectsToParameterize) {
         RKRequestDescriptor *requestDescriptor = RKRequestDescriptorFromArrayMatchingObjectAndRequestMethod(self.requestDescriptors, objectToParameterize, method);
-        if ((method != RKRequestMethodGET && method != RKRequestMethodDELETE) && requestDescriptor) {
+        if (requestDescriptor) {
             NSError *error = nil;
             NSDictionary *parametersForObject = [RKObjectParameterization parametersWithObject:objectToParameterize requestDescriptor:requestDescriptor error:&error];
             if (error) {
