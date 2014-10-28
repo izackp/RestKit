@@ -66,7 +66,7 @@ static RKObjectManager  *sharedManager = nil;
  @param method The method for which to select matching response descriptors.
  @return An `NSArray` object whose elements are `RKResponseDescriptor` objects matching the given path and method.
  */
-#ifdef RKCoreDataIncluded
+
 static NSArray *RKFilteredArrayOfResponseDescriptorsMatchingPathAndMethod(NSArray *responseDescriptors, NSString *path, RKRequestMethod method)
 {
     NSIndexSet *indexSet = [responseDescriptors indexesOfObjectsPassingTest:^BOOL(RKResponseDescriptor *responseDescriptor, NSUInteger idx, BOOL *stop) {
@@ -74,7 +74,6 @@ static NSArray *RKFilteredArrayOfResponseDescriptorsMatchingPathAndMethod(NSArra
     }];
     return [responseDescriptors objectsAtIndexes:indexSet];
 }
-#endif
 
 /**
  Returns the first `RKRequestDescriptor` object from the given array that matches the given object.
@@ -630,8 +629,9 @@ static NSString *RKMIMETypeFromAFHTTPClientParameterEncoding(AFHTTPClientParamet
         routingMetadata = @{ @"routing": @{ @"parameters": interpolatedParameters, @"route": route } };
     }
     
-#ifdef RKCoreDataIncluded
     NSArray *matchingDescriptors = RKFilteredArrayOfResponseDescriptorsMatchingPathAndMethod(self.responseDescriptors, path, method);
+    
+#ifdef RKCoreDataIncluded
     BOOL containsEntityMapping = RKDoesArrayOfResponseDescriptorsContainEntityMapping(matchingDescriptors);
     BOOL isManagedObjectRequestOperation = (containsEntityMapping || [object isKindOfClass:[NSManagedObject class]]);
     
@@ -665,7 +665,7 @@ static NSString *RKMIMETypeFromAFHTTPClientParameterEncoding(AFHTTPClientParamet
     operation = [self objectRequestOperationWithRequest:request success:nil failure:nil];
 #endif
     
-    if (RKDoesArrayOfResponseDescriptorsContainMappingForClass(self.responseDescriptors, [object class])) operation.targetObject = object;
+    if (RKDoesArrayOfResponseDescriptorsContainMappingForClass(matchingDescriptors, [object class])) operation.targetObject = object;
     operation.mappingMetadata = routingMetadata;
     return operation;
 }
