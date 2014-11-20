@@ -1,3 +1,5 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
 inhibit_all_warnings!
 
 def import_pods
@@ -6,7 +8,7 @@ def import_pods
   pod 'RestKit/Search', :path => '.'
   
   pod 'Specta', '0.2.1'
-  pod 'OCMock', '2.2.1'
+  pod 'OCMock', '2.2.4'
   pod 'OCHamcrest', '3.0.1'
   pod 'Expecta', '0.3.1'
   
