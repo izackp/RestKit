@@ -1,0 +1,23 @@
+[submodule "Carthage/Checkouts/RKValueTransformers"]
+	path = Carthage/Checkouts/RKValueTransformers
+	url = https://github.com/arturgrigor/RKValueTransformers.git
+[submodule "Carthage/Checkouts/iso-8601-date-formatter"]
+	path = Carthage/Checkouts/iso-8601-date-formatter
+	url = https://github.com/arturgrigor/iso-8601-date-formatter.git
+[submodule "Carthage/Checkouts/ISO8601DateFormatterValueTransformer"]
+	path = Carthage/Checkouts/ISO8601DateFormatterValueTransformer
+	url = https://github.com/arturgrigor/ISO8601DateFormatterValueTransformer.git
+[submodule "Carthage/Checkouts/sockit"]
+	path = Carthage/Checkouts/sockit
+	url = https://github.com/arturgrigor/sockit.git
+[submodule "Carthage/Checkouts/TransitionKit"]
+	url = https://github.com/arturgrigor/TransitionKit.git
+[submodule "Carthage/Checkouts/ocmock"]
+	path = Carthage/Checkouts/ocmock
+	url = https://github.com/erikdoe/ocmock.git
+[submodule "Carthage/Checkouts/expecta"]
+	path = Carthage/Checkouts/expecta
+	url = https://github.com/specta/expecta.git
+[submodule "Carthage/Checkouts/specta"]
+	path = Carthage/Checkouts/specta
+	url = https://github.com/specta/specta.git

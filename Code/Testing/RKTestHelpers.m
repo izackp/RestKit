@@ -23,7 +23,7 @@
 #import "RKRoute.h"
 #import "RKPathUtilities.h"
 #import "RKLog.h"
-#import "SOCKit.h"
+#import <SOCKit/SOCKit.h>
 #import "RKRouteSet.h"
 
 #if __has_include("CoreData.h")
