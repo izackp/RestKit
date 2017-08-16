@@ -1,0 +1,4 @@
+github "arturgrigor/ISO8601DateFormatterValueTransformer" "v0.6.3"
+github "arturgrigor/RKValueTransformers" "v1.1.5"
+github "arturgrigor/TransitionKit" "2.2.4"
+github "arturgrigor/sockit" "1.2.0"
