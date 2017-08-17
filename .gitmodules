@@ -12,6 +12,7 @@
 	url = https://github.com/arturgrigor/sockit.git
 [submodule "Carthage/Checkouts/TransitionKit"]
 	url = https://github.com/arturgrigor/TransitionKit.git
+	path = Carthage/Checkouts/TransitionKit
 [submodule "Carthage/Checkouts/ocmock"]
 	path = Carthage/Checkouts/ocmock
 	url = https://github.com/erikdoe/ocmock.git
@@ -21,3 +22,6 @@
 [submodule "Carthage/Checkouts/specta"]
 	path = Carthage/Checkouts/specta
 	url = https://github.com/specta/specta.git
+[submodule "Carthage/Checkouts/OCHamcrest"]
+	path = Carthage/Checkouts/OCHamcrest
+	url = https://github.com/hamcrest/OCHamcrest.git
