@@ -103,7 +103,7 @@
 
 - (void)testSendingAnObjectRequestOperationToAnInvalidHostname
 {
-    NSMutableURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://invalid.is"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://whiskeytangofoxtrot.ly"]];
     RKObjectRequestOperation *requestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ [self responseDescriptorForComplexUser] ]];
     [requestOperation start];
     expect([requestOperation isFinished]).will.beTruthy();
@@ -115,12 +115,14 @@
 
 - (void)testSendingAnObjectRequestOperationToAnBrokenURL
 {
-    NSMutableURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://invalid••™¡.is"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://invalid••™¡.is"]];
     RKObjectRequestOperation *requestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ [self responseDescriptorForComplexUser] ]];
     [requestOperation start];
     expect([requestOperation isFinished]).will.beTruthy();
     
-    expect([requestOperation.error code]).to.equal(NSURLErrorBadURL);
+    // iOS8 (and presumably 10.10) returns NSURLErrorUnsupportedURL which means the HTTP NSURLProtocol does not accept it
+    NSArray *validErrorCodes = @[ @(NSURLErrorBadURL), @(NSURLErrorUnsupportedURL) ];
+    expect(validErrorCodes).to.contain(requestOperation.error.code);
 }
 
 #pragma mark - Complex JSON
@@ -160,8 +162,8 @@
     expect(requestOperation.error).notTo.beNil();
     expect([requestOperation.error localizedDescription]).to.equal(@"error1, error2");
 
-    NSArray *objects = [[requestOperation.error userInfo] objectForKey:RKObjectMapperErrorObjectsKey];
-    RKErrorMessage *error1 = [objects objectAtIndex:0];
+    NSArray *objects = [requestOperation.error userInfo][RKObjectMapperErrorObjectsKey];
+    RKErrorMessage *error1 = objects[0];
     RKErrorMessage *error2 = [objects lastObject];
 
     expect(error1.errorMessage).to.equal(@"error1");
@@ -492,9 +494,9 @@
     expect([requestOperation isFinished]).will.beTruthy();
     expect(requestOperation.error).notTo.beNil();    
     NSString *failureReason = [[requestOperation.error userInfo] valueForKey:NSLocalizedFailureReasonErrorKey];
-    assertThat(failureReason, containsString(@"A 200 response was loaded from the URL 'http://127.0.0.1:4567/users/empty', which failed to match all (2) response descriptors:"));
-    assertThat(failureReason, containsString(@"failed to match: response URL 'http://127.0.0.1:4567/users/empty' is not relative to the baseURL 'http://restkit.org/api/v1'."));
-    assertThat(failureReason, containsString(@"failed to match: response URL 'http://127.0.0.1:4567/users/empty' is not relative to the baseURL 'http://restkit.org/api/v1'."));
+    assertThat(failureReason, containsString(@"A 200 response was loaded from the URL 'http://localhost:4567/users/empty', which failed to match all (2) response descriptors:"));
+    assertThat(failureReason, containsString(@"failed to match: response URL 'http://localhost:4567/users/empty' is not relative to the baseURL 'http://restkit.org/api/v1'."));
+    assertThat(failureReason, containsString(@"failed to match: response URL 'http://localhost:4567/users/empty' is not relative to the baseURL 'http://restkit.org/api/v1'."));
 }
 
 // Test trailing slash on the baseURL
@@ -730,15 +732,83 @@
     expect(user.phone).to.equal(@"867-5309");
 }
 
+
+- (void)testCopyingOperationWithSuccessBlock
+{
+	RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[RKTestComplexUser class]];
+	[userMapping addAttributeMappingsFromDictionary:@{ @"@metadata.phoneNumber": @"phone" }];
+	RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+	
+	RKTestComplexUser *user = [RKTestComplexUser new];
+	user.firstname = @"Blake";
+	user.lastname = @"Watters";
+	user.email = @"blake@restkit.org";
+	
+	NSMutableURLRequest *request = [NSMutableURLRequest  requestWithURL:[NSURL URLWithString:@"/humans" relativeToURL:[RKTestFactory baseURL]]];
+	request.HTTPMethod = @"POST";
+	RKObjectRequestOperation *requestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
+	
+	__block BOOL invoked = NO;
+	[requestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+		invoked = YES;
+	} failure:nil];
+	[requestOperation start];
+	expect([requestOperation isFinished]).will.beTruthy();
+	expect(invoked).will.beTruthy();
+	
+	RKObjectRequestOperation *copiedOperation = [requestOperation copy];
+	copiedOperation.mappingMetadata = @{ @"phoneNumber": @"867-5309" };
+	copiedOperation.targetObject = user;
+	invoked = NO;
+	[copiedOperation start];
+	[copiedOperation waitUntilFinished];
+	expect(requestOperation.error).to.beNil();
+	expect(requestOperation.mappingResult).notTo.beNil();
+	expect(user.phone).to.equal(@"867-5309");
+	expect(invoked).will.beTruthy();
+}
+
+
+- (void)testCopyingOperationWithFaiureBlock
+{
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"/errors.json" relativeToURL:[RKTestFactory baseURL]]];
+	RKObjectRequestOperation *requestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ ]];
+	
+	__block NSError *blockError = nil;
+	[requestOperation setCompletionBlockWithSuccess:nil failure:^(RKObjectRequestOperation *operation, NSError *error) {
+		blockError = error;
+	}];
+	
+	[requestOperation start];
+	expect([requestOperation isFinished]).will.beTruthy();
+	expect(blockError).willNot.beNil();
+	
+	RKObjectRequestOperation *copiedOperation = [requestOperation copy];
+	blockError = nil;
+	[copiedOperation start];
+	[copiedOperation waitUntilFinished];
+	expect([requestOperation isFinished]).will.beTruthy();
+	expect(blockError).willNot.beNil();
+}
+
+
 #pragma mark -
 
 - (void)testThatCacheEntryIsFlaggedWhenMappingCompletes
 {
+    [Expecta setAsynchronousTestTimeout:15];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+
     RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[RKTestComplexUser class]];
     [userMapping addAttributeMappingsFromDictionary:@{ @"name": @"email" }];
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping method:RKRequestMethodAny pathPattern:nil keyPath:@"human" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"/coredata/etag" relativeToURL:[RKTestFactory baseURL]]];
+
+    // Make sure the shared cache doesn't contain any response from previous tests
+    [[NSURLCache sharedURLCache] removeCachedResponseForRequest:request];
+    expect([[NSURLCache sharedURLCache] cachedResponseForRequest:request]).will.beNil();
+
     RKObjectRequestOperation *requestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
     [requestOperation start];
     expect([requestOperation isFinished]).will.beTruthy();
@@ -751,10 +821,18 @@
 
 - (void)testThatCacheEntryIsNotFlaggedWhenMappingFails
 {
+    [Expecta setAsynchronousTestTimeout:15];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+
     RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[RKTestComplexUser class]];
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping method:RKRequestMethodAny pathPattern:@"/mismatch" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"/coredata/etag" relativeToURL:[RKTestFactory baseURL]]];
+
+    // Make sure the shared cache doesn't contain any response from previous tests
+    [[NSURLCache sharedURLCache] removeCachedResponseForRequest:request];
+    expect([[NSURLCache sharedURLCache] cachedResponseForRequest:request]).will.beNil();
+
     RKObjectRequestOperation *requestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
     [requestOperation start];
     expect([requestOperation isFinished]).will.beTruthy();
@@ -843,6 +921,33 @@
     [operationQueue cancelAllOperations];
     expect([operationQueue operationCount]).will.equal(0);
     [[RKObjectRequestOperation responseMappingQueue] setSuspended:NO];
+}
+
+- (void)testThatNonUsedOperationDoesNotLeak
+{
+    __weak RKObjectRequestOperation *weakRequestOperation = nil;
+    
+    {
+        @autoreleasepool {
+            NSURLRequest * const request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"/abc"]];
+            RKObjectRequestOperation *requestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[]];
+            [requestOperation setCompletionBlockWithSuccess:nil failure:nil];
+            weakRequestOperation = requestOperation;
+            requestOperation = nil;
+        }
+        expect(weakRequestOperation).to.beNil();
+    }
+    
+    {
+        @autoreleasepool {
+            RKObjectManager * const objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"dummy.com"]];
+            RKObjectRequestOperation *requestOperation = [objectManager appropriateObjectRequestOperationWithObject:nil method:RKRequestMethodGET path:@"/abc" parameters:nil];
+            expect(requestOperation).notTo.beNil();
+            weakRequestOperation = requestOperation;
+            requestOperation = nil;
+        }
+        expect(weakRequestOperation).to.beNil();
+    }
 }
 
 @end

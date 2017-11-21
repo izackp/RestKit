@@ -1,0 +1,4 @@
+github "specta/specta"
+github "erikdoe/ocmock"
+github "hamcrest/OCHamcrest"
+github "specta/expecta" "master"

@@ -21,33 +21,13 @@
 #import <objc/message.h>
 #import <objc/runtime.h>
 #import "RKObjectUtilities.h"
+#import "RKBooleanClass.h"
 
 BOOL RKObjectIsEqualToObject(id object, id anotherObject) {
     NSCAssert(object, @"Expected object not to be nil");
     NSCAssert(anotherObject, @"Expected anotherObject not to be nil");
     
-    SEL comparisonSelector;
-    if ([object isKindOfClass:[NSString class]] && [anotherObject isKindOfClass:[NSString class]]) {
-        comparisonSelector = @selector(isEqualToString:);
-    } else if ([object isKindOfClass:[NSNumber class]] && [anotherObject isKindOfClass:[NSNumber class]]) {
-        comparisonSelector = @selector(isEqualToNumber:);
-    } else if ([object isKindOfClass:[NSDate class]] && [anotherObject isKindOfClass:[NSDate class]]) {
-        comparisonSelector = @selector(isEqualToDate:);
-    } else if ([object isKindOfClass:[NSArray class]] && [anotherObject isKindOfClass:[NSArray class]]) {
-        comparisonSelector = @selector(isEqualToArray:);
-    } else if ([object isKindOfClass:[NSDictionary class]] && [anotherObject isKindOfClass:[NSDictionary class]]) {
-        comparisonSelector = @selector(isEqualToDictionary:);
-    } else if ([object isKindOfClass:[NSSet class]] && [anotherObject isKindOfClass:[NSSet class]]) {
-        comparisonSelector = @selector(isEqualToSet:);
-    } else {
-        comparisonSelector = @selector(isEqual:);
-    }
-    
-    // Comparison magic using function pointers. See this page for details: http://www.red-sweater.com/blog/320/abusing-objective-c-with-class
-    // Original code courtesy of Greg Parker
-    // This is necessary because isEqualToNumber will return negative integer values that aren't coercable directly to BOOL's without help [sbw]
-    BOOL (*ComparisonSender)(id, SEL, id) = (BOOL (*)(id, SEL, id))objc_msgSend;
-    return ComparisonSender(object, comparisonSelector, anotherObject);
+    return (object == anotherObject) || [object isEqual:anotherObject];
 }
 
 BOOL RKClassIsCollection(Class aClass)
@@ -118,9 +98,7 @@ Class RKKeyValueCodingClassForObjCType(const char *type)
                 return [NSNumber class];
                 
             case _C_BOOL: // C++ bool or C99 _Bool
-                return objc_getClass("NSCFBoolean")
-                ?: objc_getClass("__NSCFBoolean")
-                ?: [NSNumber class];
+                return RK_BOOLEAN_CLASS;
                 
             case _C_STRUCT_B: // struct
             case _C_BFLD: // bitfield

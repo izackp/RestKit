@@ -1,15 +1,24 @@
-[submodule "Vendor/AFNetworking"]
-	path = Vendor/AFNetworking
-	url = https://github.com/AFNetworking/AFNetworking.git
-[submodule "Vendor/TransitionKit"]
-	path = Vendor/TransitionKit
-	url = https://github.com/blakewatters/TransitionKit.git
-[submodule "Vendor/RKValueTransformers"]
-	path = Vendor/RKValueTransformers
-	url = https://github.com/RestKit/RKValueTransformers.git
-[submodule "Vendor/ISO8601DateFormatterValueTransformer"]
-	path = Vendor/ISO8601DateFormatterValueTransformer
-	url = https://github.com/blakewatters/ISO8601DateFormatterValueTransformer.git
-[submodule "Vendor/SOCKit"]
-	path = Vendor/SOCKit
-	url = https://github.com/NimbusKit/sockit.git
+[submodule "Carthage/Checkouts/RKValueTransformers"]
+	path = Carthage/Checkouts/RKValueTransformers
+	url = https://github.com/arturgrigor/RKValueTransformers.git
+[submodule "Carthage/Checkouts/ISO8601DateFormatterValueTransformer"]
+	path = Carthage/Checkouts/ISO8601DateFormatterValueTransformer
+	url = https://github.com/arturgrigor/ISO8601DateFormatterValueTransformer.git
+[submodule "Carthage/Checkouts/sockit"]
+	path = Carthage/Checkouts/sockit
+	url = https://github.com/arturgrigor/sockit.git
+[submodule "Carthage/Checkouts/TransitionKit"]
+	url = https://github.com/arturgrigor/TransitionKit.git
+	path = Carthage/Checkouts/TransitionKit
+[submodule "Carthage/Checkouts/ocmock"]
+	path = Carthage/Checkouts/ocmock
+	url = https://github.com/erikdoe/ocmock.git
+[submodule "Carthage/Checkouts/expecta"]
+	path = Carthage/Checkouts/expecta
+	url = https://github.com/specta/expecta.git
+[submodule "Carthage/Checkouts/specta"]
+	path = Carthage/Checkouts/specta
+	url = https://github.com/specta/specta.git
+[submodule "Carthage/Checkouts/OCHamcrest"]
+	path = Carthage/Checkouts/OCHamcrest
+	url = https://github.com/hamcrest/OCHamcrest.git
