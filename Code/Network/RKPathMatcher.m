@@ -19,7 +19,7 @@
 //
 
 #import "RKPathMatcher.h"
-#import <SOCKit/SOCKit.h>
+#import "SOCKit.h"
 #import "RKLog.h"
 #import "RKDictionaryUtilities.h"
 
