@@ -26,7 +26,6 @@
 #import "RKRelationshipMapping.h"
 #import "RKErrors.h"
 #import "RKLog.h"
-#import "RKMappingOperationDataSource.h"
 #import "RKObjectMappingOperationDataSource.h"
 #import "RKDynamicMapping.h"
 #import "RKObjectUtilities.h"

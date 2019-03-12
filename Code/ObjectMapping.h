@@ -27,3 +27,23 @@
 #import "RKMapperOperation.h"
 #import "RKDynamicMapping.h"
 #import "RKErrorMessage.h"
+
+//Not needed?
+#import "RKObjectMappingOperationDataSource.h"
+#import "RKObjectUtilities.h"
+#import "RKEntityByAttributeCache.h"
+#import "RKResponseMapperOperation.h"
+#import "RKRelationshipConnectionOperation.h"
+#import "RKEntityCache.h"
+#import "RKManagedObjectStore+RKSearchAdditions.h"
+#import "RKMappingErrors.h"
+#import "RKSearchPredicate.h"
+#import "RKSearchWordEntity.h"
+#import "Search.h"
+#import "RKSearchWord.h"
+#import "RKObjectRequestOperation.h"
+#import "RKObjectRequestOperationSubclass.h"
+#import "RKLumberjackLogger.h"
+#import "RKSearchIndexer.h"
+#import "RKOperationStateMachine.h"
+
