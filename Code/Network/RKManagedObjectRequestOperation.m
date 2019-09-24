@@ -510,6 +510,9 @@ BOOL RKDoesArrayOfResponseDescriptorsContainOnlyEntityMappings(NSArray *response
 
 - (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
+    if (self.managedObjectCache == nil) {
+        NSLog(@"Missing cache");
+    }
     _managedObjectContext = managedObjectContext;
 
     if (managedObjectContext) {
