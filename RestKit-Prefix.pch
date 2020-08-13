@@ -1,0 +1,15 @@
+//
+//  PrefixHeader.pch
+//  RestKit
+//
+//  Created by Isaac Paul on 8/13/20.
+//  Copyright © 2020 RestKit. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+//No more truncated logs
+#define NSLog(FORMAT, ...) printf("%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+
+#endif /* PrefixHeader_pch */

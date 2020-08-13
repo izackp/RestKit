@@ -321,6 +321,9 @@
 		C0F11CE6190883460054AEA0 /* RKPathMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F11CE2190883380054AEA0 /* RKPathMatcher.m */; };
 		DEF8B7EF1D52938D00DA4DC0 /* RKManagedObjectStore_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DEF8B7ED1D52938D00DA4DC0 /* RKManagedObjectStore_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		DEF8B7F01D52938D00DA4DC0 /* RKManagedObjectStore_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DEF8B7ED1D52938D00DA4DC0 /* RKManagedObjectStore_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		DF65037124E59BD300446EF1 /* RestKit-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = DF65037024E59BD300446EF1 /* RestKit-Prefix.pch */; };
+		DF65037224E59BD300446EF1 /* RestKit-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = DF65037024E59BD300446EF1 /* RestKit-Prefix.pch */; };
+		DF65037324E59BD300446EF1 /* RestKit-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = DF65037024E59BD300446EF1 /* RestKit-Prefix.pch */; };
 		DFFC05181FCF456C00C3A8BB /* TKEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = DFFC05021FCF456A00C3A8BB /* TKEvent.h */; };
 		DFFC05191FCF456C00C3A8BB /* TKEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = DFFC05021FCF456A00C3A8BB /* TKEvent.h */; };
 		DFFC051A1FCF456C00C3A8BB /* TKEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = DFFC05031FCF456A00C3A8BB /* TKEvent.m */; };
@@ -725,6 +728,7 @@
 		CF210C1916C936CF01427B6D /* Pods_RestKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RestKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D65BD48D9807D81B001FA9EF /* Pods-RestKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RestKit/Pods-RestKit.debug.xcconfig"; sourceTree = "<group>"; };
 		DEF8B7ED1D52938D00DA4DC0 /* RKManagedObjectStore_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectStore_Private.h; sourceTree = "<group>"; };
+		DF65037024E59BD300446EF1 /* RestKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RestKit-Prefix.pch"; sourceTree = "<group>"; };
 		DFFC05021FCF456A00C3A8BB /* TKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKEvent.h; sourceTree = "<group>"; };
 		DFFC05031FCF456A00C3A8BB /* TKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKEvent.m; sourceTree = "<group>"; };
 		DFFC05041FCF456A00C3A8BB /* TKState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKState.h; sourceTree = "<group>"; };
@@ -807,6 +811,7 @@
 		25160D0B14564E810060A5C5 = {
 			isa = PBXGroup;
 			children = (
+				DF65037024E59BD300446EF1 /* RestKit-Prefix.pch */,
 				DFFC04F81FCF44BB00C3A8BB /* Vendor */,
 				25160D44145650490060A5C5 /* Code */,
 				25EC1AD614F8022600C3CF3F /* Resources */,
@@ -1319,6 +1324,7 @@
 				2502C8F315F79CF70060FD75 /* Search.h in Headers */,
 				2502C8F515F79CF70060FD75 /* Support.h in Headers */,
 				2534781815FFD4A6002C0E4E /* RKURLEncodedSerialization.h in Headers */,
+				DF65037124E59BD300446EF1 /* RestKit-Prefix.pch in Headers */,
 				253477F115FFBC61002C0E4E /* RKDictionaryUtilities.h in Headers */,
 				25F53F391606269400A093BE /* RKObjectRequestOperationSubclass.h in Headers */,
 				25A226D61618A57500952D72 /* RKObjectUtilities.h in Headers */,
@@ -1415,6 +1421,7 @@
 				253477F215FFBC61002C0E4E /* RKDictionaryUtilities.h in Headers */,
 				2534781915FFD4A6002C0E4E /* RKURLEncodedSerialization.h in Headers */,
 				25F53F3A1606269400A093BE /* RKObjectRequestOperationSubclass.h in Headers */,
+				DF65037324E59BD300446EF1 /* RestKit-Prefix.pch in Headers */,
 				25A226D71618A57500952D72 /* RKObjectUtilities.h in Headers */,
 				25E88C89165C5CC30042ABD0 /* RKConnectionDescription.h in Headers */,
 				C0F11CE5190883460054AEA0 /* RKPathMatcher.h in Headers */,
@@ -1454,6 +1461,7 @@
 				FE52F91A1F4485E4004200AC /* RKMappingErrors.h in Headers */,
 				FE52F9551F44878C004200AC /* RKObjectParameterization.h in Headers */,
 				DFFC05291FCF456C00C3A8BB /* TransitionKit-Prefix.pch in Headers */,
+				DF65037224E59BD300446EF1 /* RestKit-Prefix.pch in Headers */,
 				FE52F99D1F4487ED004200AC /* RKNSJSONSerialization.h in Headers */,
 				FE52F97D1F4487DB004200AC /* RKManagedObjectStore_Private.h in Headers */,
 				FE52F9511F44878C004200AC /* RKResponseDescriptor.h in Headers */,
@@ -1605,6 +1613,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 25160D0B14564E810060A5C5;
@@ -1910,6 +1919,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/RestKit-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1957,6 +1968,8 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/RestKit-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
